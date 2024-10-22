@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Happy Birthday!</title>
+    <link rel="stylesheet" href="bdaystyles.css">
+</head>
+<body>
+
+    <div class="form-section" id="form-section">
+        <h2>Fill the Form</h2>
+        <form>
+            <input type="hidden" name="captcha" value="false">
+            <label for="wish">What do you wish to have on this Birthday?</label>
+            <input type="text" name="wish" id="wish" placeholder="Your wish" required>
+            <button type="submit">Start</button>
+        </form>
+    </div>
+    <div id="loading">
+        <div class="loader"></div>
+      </div>
+
+      <div id="content">
+    
+      </div> 
+
+    <div class="container hidden" id="birthday-page">
+        <header>
+            <h1 id="greeting">Happy Birthday!</h1>
+            <p id="foryou">This page is just for you.</p>
+        </header>
+
+        <section>
+            <h2>Happiee 17...&#10084;</h2>
+            <p>This is probably the first time I'm wishing you on your exact birthday.</p>
+            <p>Love, Sidharth</p>
+        </section>
+
+        <section class="gallery">
+            <h2>Some Special Moments</h2>
+            <img src="media/images/me.jpg.jpeg" alt="Special moment 1">
+            <img src="Her.jpg" alt="Special moment 2">
+            <img src="photo3.jpg" alt="Special moment 3">
+            <img src="photo4.jpg" alt="Special moment 4">
+        </section>
+
+        <section class="messages">
+            <h2>Your loved ones</h2>
+            <div class="message-box">
+                <p><a href="famgift.html"><strong>Most Important</strong></a></p>
+            </div>
+            <div class="message-box">
+                <p><a href="friendgift.html"><strong>Your Preference</strong></a></p>
+            </div>
+        </section>
+
+        <section class="countdown">
+            <p id="countdown"></p>
+        </section>
+
+        <section class="music-control">
+            <h2>Birthday Song</h2>
+            <audio controls autoplay>
+                <source src="media/audio/sirivennelaedit.mp3.mp3" type="audio/mpeg">
+            </audio>
+        </section>
+    </div>
+
+    <footer>
+        <p id="bottom"> Created with ❤️ by Sidharth</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('formSubmitted') === 'true') {
+                const wish = sessionStorage.getItem('userWish');
+
+                document.getElementById('form-section').classList.add('hidden');
+                document.getElementById('birthday-page').classList.remove('hidden');
+
+                document.getElementById('famwish').innerText = wish;
+
+                startCountdown();
+            }
+
+            document.querySelector('form').addEventListener('submit', function(event) {
+                event.preventDefault(); 
+
+                const wish = document.getElementById('wish').value;
+
+                sessionStorage.setItem('formSubmitted', 'true');
+                sessionStorage.setItem('userWish', wish);
+
+                document.getElementById('form-section').classList.add('hidden');
+                document.getElementById('birthday-page').classList.remove('hidden');
+
+                document.getElementById('famwish').innerText = wish;
+
+                startCountdown();
+            });
+        });
+        window.onload = function() {
+      setTimeout(function() {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("content").style.display = "block";
+      }, 1500);
+    };
+    </script>
+</body>
+</html>
