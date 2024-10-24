@@ -18,13 +18,14 @@
             <button type="submit">Start</button>
         </form>
     </div>
-    <div id="loading">
-        <div class="loader"></div>
-      </div>
 
-      <div id="content">
+    <div id="loading" style="display: none;">
+        <div class="loader"></div>
+    </div>
+
+    <div id="content" style="display: none;">
     
-      </div> 
+    </div> 
 
     <div class="container hidden" id="birthday-page">
         <header>
@@ -35,6 +36,7 @@
         <section>
             <h2>Happiee 17...&#10084;</h2>
             <p>This is probably the first time I'm wishing you on your exact birthday.</p>
+            <p><strong>Your Wish:</strong> <span id="famwish"></span></p> <!-- Added span for the wish -->
         </section>
 
         <section class="gallery">
@@ -61,7 +63,7 @@
 
         <section class="music-control">
             <h2>Birthday Song</h2>
-            <audio controls autoplay>
+            <audio id="birthday-song" controls>
                 <source src="sirivennelaedit.mp3.mp3" type="audio/mpeg">
             </audio>
         </section>
@@ -73,6 +75,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const loadingElement = document.getElementById("loading");
+            const contentElement = document.getElementById("content");
+
             if (sessionStorage.getItem('formSubmitted') === 'true') {
                 const wish = sessionStorage.getItem('userWish');
 
@@ -82,6 +87,7 @@
                 document.getElementById('famwish').innerText = wish;
 
                 startCountdown();
+                playAudio(); // Play audio when the page is loaded if the form is already submitted
             }
 
             document.querySelector('form').addEventListener('submit', function(event) {
@@ -98,14 +104,33 @@
                 document.getElementById('famwish').innerText = wish;
 
                 startCountdown();
+                playAudio(); // Play audio after form submission
             });
         });
+
+        function playAudio() {
+            const audioElement = document.getElementById('birthday-song');
+            audioElement.play().catch(error => {
+                console.log('Autoplay was prevented. User interaction may be required:', error);
+            });
+        }
+
         window.onload = function() {
-      setTimeout(function() {
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("content").style.display = "block";
-      }, 1500);
-    };
+            const loadingElement = document.getElementById("loading");
+            const contentElement = document.getElementById("content");
+
+            loadingElement.style.display = "block";
+
+            setTimeout(function() {
+                loadingElement.style.display = "none";
+                contentElement.style.display = "block";
+            }, 1500);
+        };
+
+        function startCountdown() {
+            // Countdown logic can be implemented here if needed
+        }
     </script>
 </body>
 </html>
+
