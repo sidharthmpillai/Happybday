@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Happy Birthday!</title>
-    <link rel="stylesheet" href="bdaystyles.css">
+    <link rel="stylesheet" href="bdaystyles.css"> <!-- Ensure path to your CSS is correct -->
 </head>
 <body>
 
-    <div class="form-section" id="form-section">
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Hidden Form Section -->
+    <div class="form-section hidden" id="form-section">
         <h2>Fill the Form</h2>
         <form>
             <input type="hidden" name="captcha" value="false">
@@ -19,15 +25,8 @@
         </form>
     </div>
 
-    <div id="loading" style="display: none;">
-        <div class="loader"></div>
-    </div>
-
-    <div id="content" style="display: none;">
-    
-    </div> 
-
-    <div class="container hidden" id="birthday-page">
+    <!-- Hidden Content Section -->
+    <div id="content" class="container hidden">
         <header>
             <h1 id="greeting">Happy Birthday!</h1>
             <p id="foryou">This page is just for you.</p>
@@ -36,7 +35,6 @@
         <section>
             <h2>Happiee 17...&#10084;</h2>
             <p>This is probably the first time I'm wishing you on your exact birthday.</p>
-            <p><strong>Your Wish:</strong> <span id="famwish"></span></p> <!-- Added span for the wish -->
         </section>
 
         <section class="gallery">
@@ -57,10 +55,6 @@
             </div>
         </section>
 
-        <section class="countdown">
-            <p id="countdown"></p>
-        </section>
-
         <section class="music-control">
             <h2>Birthday Song</h2>
             <audio id="birthday-song" controls>
@@ -70,67 +64,59 @@
     </div>
 
     <footer>
-        <p id="bottom"> Created with ❤️ by Sidharth</p>
+        <p id="bottom">Created with ❤️ by Sidharth</p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingElement = document.getElementById("loading");
-            const contentElement = document.getElementById("content");
-
-            if (sessionStorage.getItem('formSubmitted') === 'true') {
-                const wish = sessionStorage.getItem('userWish');
-
-                document.getElementById('form-section').classList.add('hidden');
-                document.getElementById('birthday-page').classList.remove('hidden');
-
-                document.getElementById('famwish').innerText = wish;
-
-                startCountdown();
-                playAudio(); // Play audio when the page is loaded if the form is already submitted
-            }
-
-            document.querySelector('form').addEventListener('submit', function(event) {
-                event.preventDefault(); 
-
-                const wish = document.getElementById('wish').value;
-
-                sessionStorage.setItem('formSubmitted', 'true');
-                sessionStorage.setItem('userWish', wish);
-
-                document.getElementById('form-section').classList.add('hidden');
-                document.getElementById('birthday-page').classList.remove('hidden');
-
-                document.getElementById('famwish').innerText = wish;
-
-                startCountdown();
-                playAudio(); // Play audio after form submission
-            });
-        });
-
-        function playAudio() {
-            const audioElement = document.getElementById('birthday-song');
-            audioElement.play().catch(error => {
-                console.log('Autoplay was prevented. User interaction may be required:', error);
-            });
-        }
-
+        // Display loading screen, hide content initially
         window.onload = function() {
             const loadingElement = document.getElementById("loading");
             const contentElement = document.getElementById("content");
 
-            loadingElement.style.display = "block";
+            loadingElement.style.display = "block"; // Show loading screen
+            contentElement.style.display = "none";  // Hide content initially
 
             setTimeout(function() {
-                loadingElement.style.display = "none";
-                contentElement.style.display = "block";
-            }, 1500);
+                loadingElement.style.display = "none"; // Hide loading screen
+                contentElement.style.display = "block"; // Show content after loading
+            }, 1500); // Simulate 1.5 seconds loading time
         };
 
-        function startCountdown() {
-            // Countdown logic can be implemented here if needed
+        // Handle form submission and showing birthday content
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('formSubmitted') === 'true') {
+                const wish = sessionStorage.getItem('userWish');
+                document.getElementById('form-section').classList.add('hidden');
+                document.getElementById('content').classList.remove('hidden');
+                document.getElementById('famwish').innerText = wish;
+
+                playBirthdaySong();
+            }
+
+            document.querySelector('form').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form from reloading the page
+
+                const wish = document.getElementById('wish').value;
+                sessionStorage.setItem('formSubmitted', 'true');
+                sessionStorage.setItem('userWish', wish);
+
+                document.getElementById('form-section').classList.add('hidden');
+                document.getElementById('content').classList.remove('hidden');
+                document.getElementById('famwish').innerText = wish;
+
+                playBirthdaySong(); // Play song after form submission
+            });
+        });
+
+        // Function to play the birthday song
+        function playBirthdaySong() {
+            const audio = document.getElementById('birthday-song');
+            if (audio) {
+                audio.play(); // Attempt to autoplay the song
+            }
         }
     </script>
 </body>
 </html>
+
 
